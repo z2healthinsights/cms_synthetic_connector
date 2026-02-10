@@ -128,7 +128,7 @@ enrollment_span as (
 joined as (
 
     select
-          cast(enrollment_span.bene_id as {{ dbt.type_string() }} ) as patient_id
+          cast(enrollment_span.bene_id as {{ dbt.type_string() }} ) as person_id
         , cast(enrollment_span.bene_id as {{ dbt.type_string() }} ) as member_id
         , cast(enrollment_span.bene_id as {{ dbt.type_string() }} ) as subscriber_id
         , case eligibility_unpivot.sex_code
@@ -182,8 +182,6 @@ joined as (
         , 'master_beneficiary_summary' as file_name
         , cast(NULL as date ) as file_date
         , cast(NULL as date ) as ingest_datetime
-        
-
     from enrollment_span
          left join eligibility_unpivot
             on enrollment_span.bene_id = eligibility_unpivot.bene_id
@@ -192,7 +190,3 @@ joined as (
             on eligibility_unpivot.state_code = medicare_state_fips.ssa_fips_state_code
 
 )
-
-select *
-,member_id as person_id
- from joined
