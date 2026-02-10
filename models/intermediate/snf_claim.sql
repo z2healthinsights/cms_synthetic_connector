@@ -69,7 +69,7 @@ select
     , cast(NULL as {{ dbt.type_string() }}) as drg_code_type
     , cast(NULL as {{ dbt.type_string() }}) as drg_code --null out DRG in data causing mapping issues
     , cast(rev_cntr as {{ dbt.type_string() }}) as revenue_center_code
-    , cast({{ regexp_substr("rev_cntr_unit_cnt", "'.'") }} as integer) as service_unit_quantity
+    , cast({{ regexp_substr("cast(rev_cntr_unit_cnt as " ~ dbt.type_string() ~ ")", "'.'") }} as integer) as service_unit_quantity
     , cast(hcpcs_cd as {{ dbt.type_string() }}) as hcpcs_code
     , cast(null as {{ dbt.type_string() }}) as hcpcs_modifier_1
     , cast(null as {{ dbt.type_string() }}) as hcpcs_modifier_2
